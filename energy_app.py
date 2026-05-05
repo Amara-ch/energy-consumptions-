@@ -1,6 +1,5 @@
 """
 ⚡ ENERGY CONSUMPTION FORECASTING
-Real-time power usage prediction using ARIMA
 """
 
 import streamlit as st
@@ -16,22 +15,15 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
-# PAGE CONFIG
-st.set_page_config(
-    page_title="⚡ Energy Forecasting",
-    page_icon="⚡",
-    layout="wide"
-)
+st.set_page_config(page_title="⚡ Energy Forecasting", page_icon="⚡", layout="wide")
 
 st.markdown("<h1 style='text-align: center; color: #FF6B35;'>⚡ Energy Consumption Forecasting</h1>", 
             unsafe_allow_html=True)
-st.markdown("Predict future power usage with Machine Learning")
+st.markdown("Machine Learning Power Usage Prediction")
 st.markdown("---")
 
-# LOAD DATA
 @st.cache_data
 def load_energy_data():
-    """Load energy data from GitHub"""
     url = "https://raw.githubusercontent.com/microsoft/ML-For-Beginners/main/7-TimeSeries/2-ARIMA/data/energy.csv"
     
     try:
@@ -41,20 +33,18 @@ def load_energy_data():
         energy = energy[['load']]
         return energy, True
     except:
-        # Create synthetic data
-        dates = pd.date_range('2012-01-01', '2014-12-31', freq='h')  # LOWERCASE h
+        dates = pd.date_range('2012-01-01', '2014-12-31', freq='h')
         np.random.seed(42)
-        base_load = 3000
+        base = 3000
         daily = 500 * np.sin(np.arange(len(dates)) * 2 * np.pi / 24)
         weekly = 300 * np.sin(np.arange(len(dates)) * 2 * np.pi / (24*7))
         trend = np.linspace(0, 200, len(dates))
         noise = np.random.normal(0, 100, len(dates))
         
-        load_values = base_load + daily + weekly + trend + noise
-        energy = pd.DataFrame({'load': np.maximum(load_values, 1000)}, index=dates)
+        load = base + daily + weekly + trend + noise
+        energy = pd.DataFrame({'load': np.maximum(load, 1000)}, index=dates)
         return energy, False
 
-# Load data
 try:
     energy_data, is_real = load_energy_data()
     if is_real:
@@ -65,29 +55,20 @@ except Exception as e:
     st.error(f"Error: {e}")
     st.stop()
 
-# SIDEBAR
 st.sidebar.title("⚙️ Settings")
-forecast_hours = st.sidebar.slider("Hours to forecast", 1, 168, 24)
+forecast_hours = st.sidebar.slider("Forecast hours", 1, 168, 24)
 training_days = st.sidebar.slider("Training days", 7, 60, 30)
 
-# TABS
 tab1, tab2, tab3 = st.tabs(["📊 Overview", "📈 History", "🔮 Forecast"])
 
-# TAB 1
 with tab1:
-    st.subheader("Energy Data Overview")
+    st.subheader("Energy Overview")
     
     col1, col2, col3, col4 = st.columns(4)
-    
-    current = energy_data['load'].iloc[-1]
-    avg = energy_data['load'].mean()
-    max_val = energy_data['load'].max()
-    min_val = energy_data['load'].min()
-    
-    col1.metric("Current Load", f"{current:.0f} MW")
-    col2.metric("Average", f"{avg:.0f} MW")
-    col3.metric("Peak", f"{max_val:.0f} MW")
-    col4.metric("Min", f"{min_val:.0f} MW")
+    col1.metric("Current", f"{energy_data['load'].iloc[-1]:.0f} MW")
+    col2.metric("Average", f"{energy_data['load'].mean():.0f} MW")
+    col3.metric("Peak", f"{energy_data['load'].max():.0f} MW")
+    col4.metric("Min", f"{energy_data['load'].min():.0f} MW")
     
     st.markdown("---")
     
@@ -101,12 +82,10 @@ with tab1:
     plt.tight_layout()
     st.pyplot(fig)
 
-# TAB 2
 with tab2:
     st.subheader("Historical Analysis")
     
-    period = st.selectbox("Period", 
-        ["Last 7 Days", "Last 30 Days", "Last 90 Days", "All"])
+    period = st.selectbox("Period", ["Last 7 Days", "Last 30 Days", "Last 90 Days", "All"])
     
     if period == "Last 7 Days":
         data_plot = energy_data.iloc[-7*24:]
@@ -136,20 +115,22 @@ with tab2:
     plt.tight_layout()
     st.pyplot(fig)
 
-# TAB 3
 with tab3:
     st.subheader("🔮 Forecast")
     
     if st.button("Generate Forecast", use_container_width=True):
-        with st.spinner("Building model..."):
+        with st.spinner("Building ARIMA model..."):
             try:
-                prices = energy_data['load'].values
+                # Prepare data
+                prices = np.array(energy_data['load'].values)
                 scaler = MinMaxScaler()
                 scaled = scaler.fit_transform(prices.reshape(-1, 1)).flatten()
                 
+                # Training data
                 train_hours = training_days * 24
                 train_data = scaled[-train_hours:]
                 
+                # Build model
                 model = SARIMAX(
                     train_data,
                     order=(2, 1, 0),
@@ -159,20 +140,32 @@ with tab3:
                 )
                 results = model.fit(disp=False)
                 
-                forecast_scaled = results.get_forecast(steps=forecast_hours).predicted_mean.values
+                # Forecast - FIX HERE
+                forecast_obj = results.get_forecast(steps=forecast_hours)
+                forecast_scaled = forecast_obj.predicted_mean
+                
+                # Handle both Series and array
+                if hasattr(forecast_scaled, 'values'):
+                    forecast_scaled = forecast_scaled.values
+                else:
+                    forecast_scaled = np.array(forecast_scaled)
+                
+                # Inverse transform
                 forecast = scaler.inverse_transform(forecast_scaled.reshape(-1, 1)).flatten()
                 
-                st.success("✅ Done!")
+                st.success("✅ Forecast complete!")
                 
+                # Metrics
                 col1, col2, col3 = st.columns(3)
-                col1.metric("Avg", f"{forecast.mean():.0f} MW")
-                col2.metric("Peak", f"{forecast.max():.0f} MW")
-                col3.metric("Min", f"{forecast.min():.0f} MW")
+                col1.metric("Avg", f"{np.mean(forecast):.0f} MW")
+                col2.metric("Peak", f"{np.max(forecast):.0f} MW")
+                col3.metric("Min", f"{np.min(forecast):.0f} MW")
                 
                 st.markdown("---")
                 
+                # Plot
                 fig, ax = plt.subplots(figsize=(14, 6))
-                recent_hist = energy_data['load'].iloc[-24*7:].values
+                recent_hist = np.array(energy_data['load'].iloc[-24*7:].values)
                 ax.plot(range(len(recent_hist)), recent_hist, label='Historical', 
                        linewidth=2, color='blue', alpha=0.7)
                 
@@ -180,36 +173,39 @@ with tab3:
                 ax.plot(forecast_range, forecast, label='Forecast', 
                        linewidth=2, color='red', marker='o', linestyle='--')
                 
-                ax.set_title(f'Energy Forecast ({forecast_hours}h)', fontsize=12, fontweight='bold')
+                ax.set_title(f'Energy Forecast ({forecast_hours}h ahead)', fontsize=12, fontweight='bold')
                 ax.set_ylabel('Load (MW)')
                 ax.legend()
                 ax.grid(True, alpha=0.3)
                 plt.tight_layout()
                 st.pyplot(fig)
                 
-                st.subheader("Forecast Table")
+                # Table
+                st.subheader("Forecast Data")
                 forecast_dates = pd.date_range(
                     start=energy_data.index[-1] + timedelta(hours=1),
                     periods=forecast_hours,
-                    freq='h'  # LOWERCASE h
+                    freq='h'
                 )
                 forecast_df = pd.DataFrame({
                     'DateTime': forecast_dates,
-                    'Predicted Load (MW)': forecast.round(2)
+                    'Predicted Load (MW)': np.round(forecast, 2)
                 })
                 st.dataframe(forecast_df.head(24), use_container_width=True)
                 
+                # Download
                 csv = forecast_df.to_csv(index=False)
                 st.download_button(
-                    "📥 Download CSV",
+                    "📥 Download Forecast CSV",
                     data=csv,
-                    file_name=f"forecast_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                    file_name=f"energy_forecast_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
                     mime="text/csv"
                 )
                 
             except Exception as e:
-                st.error(f"Error: {str(e)}")
+                st.error(f"❌ Error: {str(e)}")
+                st.info("💡 Try reducing forecast hours or training days")
 
 st.markdown("---")
-st.markdown("<p style='text-align: center; color: gray; font-size: 12px;'>⚡ Energy Forecasting | ARIMA Model</p>", 
+st.markdown("<p style='text-align: center; color: gray;'>⚡ Energy Forecasting System | ARIMA/SARIMA</p>", 
             unsafe_allow_html=True)
