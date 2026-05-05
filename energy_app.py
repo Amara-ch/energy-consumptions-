@@ -1,7 +1,7 @@
 """
 ⚡ ENERGY CONSUMPTION FORECASTING - PREMIUM VERSION
 Advanced Interactive Web Application with Beautiful UI
-Built with Streamlit, ARIMA/SARIMA, and Custom Styling
+Perfect Color Combination for Maximum Visibility
 
 Author: Energy Analytics Team
 Date: 2026
@@ -35,7 +35,7 @@ st.set_page_config(
 )
 
 # ============================================
-# CUSTOM STYLING - NO WHITE TEXT ANYWHERE
+# CUSTOM STYLING - PERFECT COLOR COMBINATION
 # ============================================
 
 st.markdown("""
@@ -46,14 +46,19 @@ st.markdown("""
         box-sizing: border-box;
     }
     
-    /* FORCE ALL TEXT TO DARK COLOR */
-    body, p, span, div, h1, h2, h3, h4, h5, h6, li, label, a {
+    /* MAIN BACKGROUND - Light Gray */
+    body {
+        background-color: #f5f5f5 !important;
+    }
+    
+    /* ALL TEXT - Dark & Visible */
+    body, p, span, div, h1, h2, h3, h4, h5, h6, li, label, a, button {
         color: #1a1a1a !important;
     }
     
-    /* Main content area */
+    /* Main content area - Light background */
     [role="main"] {
-        color: #1a1a1a !important;
+        background-color: #f5f5f5 !important;
     }
     
     [role="main"] * {
@@ -62,65 +67,70 @@ st.markdown("""
     
     /* Tab panels */
     [role="tabpanel"] {
-        color: #1a1a1a !important;
+        background-color: #f5f5f5 !important;
     }
     
     [role="tabpanel"] * {
         color: #1a1a1a !important;
     }
     
-    /* All text elements */
+    /* Markdown text */
     .stMarkdown {
         color: #1a1a1a !important;
+        background-color: transparent !important;
     }
     
     .stMarkdown * {
         color: #1a1a1a !important;
     }
     
-    /* Header */
+    /* ====== HEADER SECTION ====== */
     .main-header {
         background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
         color: white;
-        padding: 50px;
+        padding: 60px;
         border-radius: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         text-align: center;
         box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+        border: 2px solid #FF6B35;
     }
     
     .main-header h1 {
         font-size: 3.5em;
-        font-weight: 800;
-        margin-bottom: 10px;
+        font-weight: 900;
+        margin-bottom: 15px;
         color: white !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     
     .main-header p {
-        font-size: 1.3em;
+        font-size: 1.4em;
         opacity: 0.95;
         color: white !important;
+        font-weight: 500;
     }
     
-    /* Metric Cards */
+    /* ====== METRIC CARDS ====== */
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 30px;
+        padding: 35px;
         border-radius: 15px;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.25);
         transition: all 0.3s ease;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 2px solid rgba(255,255,255,0.2);
     }
     
     .metric-card:hover {
-        transform: translateY(-8px);
+        transform: translateY(-10px);
         box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        border: 2px solid rgba(255,255,255,0.4);
     }
     
     .metric-value {
-        font-size: 2.8em;
+        font-size: 3em;
         font-weight: 900;
         margin: 15px 0;
         font-family: 'Courier New', monospace;
@@ -128,17 +138,17 @@ st.markdown("""
     }
     
     .metric-label {
-        font-size: 0.85em;
-        opacity: 0.9;
+        font-size: 0.9em;
+        opacity: 0.95;
         text-transform: uppercase;
-        letter-spacing: 2px;
-        font-weight: 600;
+        letter-spacing: 2.5px;
+        font-weight: 700;
         color: white !important;
     }
     
-    /* Sidebar */
+    /* ====== SIDEBAR ====== */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+        background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%) !important;
     }
     
     [data-testid="stSidebar"] * {
@@ -149,96 +159,126 @@ st.markdown("""
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3 {
         color: #FF6B35 !important;
-        font-weight: 700;
+        font-weight: 800;
+        margin: 20px 0 10px 0;
     }
     
     [data-testid="stSidebar"] p {
-        color: #1a1a1a !important;
+        color: #333333 !important;
+        font-weight: 500;
     }
     
     [data-testid="stSidebar"] label {
         color: #1a1a1a !important;
+        font-weight: 600;
     }
     
-    /* Buttons */
+    /* ====== BUTTONS ====== */
     .stButton > button {
-        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+        background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%) !important;
         color: white !important;
         border: none;
-        padding: 12px 30px;
-        font-size: 1em;
+        padding: 14px 35px;
+        font-size: 1.05em;
         border-radius: 10px;
-        font-weight: 600;
+        font-weight: 700;
         transition: all 0.3s ease;
-        box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
         width: 100%;
     }
     
     .stButton > button:hover {
         transform: scale(1.02);
-        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+        box-shadow: 0 12px 30px rgba(255, 107, 53, 0.5);
     }
     
-    /* Info Boxes */
+    .stButton > button:active {
+        transform: scale(0.98);
+    }
+    
+    /* ====== INFO BOXES ====== */
     .info-box {
         background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-        border-left: 5px solid #2196F3;
+        border-left: 6px solid #1976D2;
         padding: 20px;
         border-radius: 10px;
         margin: 15px 0;
-        font-size: 0.95em;
-        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
-        color: #1a1a1a !important;
+        font-size: 0.98em;
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.15);
+        color: #0d47a1 !important;
     }
     
     .info-box * {
-        color: #1a1a1a !important;
+        color: #0d47a1 !important;
     }
     
     .success-box {
         background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-        border-left: 5px solid #4CAF50;
+        border-left: 6px solid #388E3C;
         padding: 20px;
         border-radius: 10px;
         margin: 15px 0;
-        font-size: 0.95em;
-        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
-        color: #1a1a1a !important;
+        font-size: 0.98em;
+        box-shadow: 0 4px 12px rgba(56, 142, 60, 0.15);
+        color: #1b5e20 !important;
     }
     
     .success-box * {
-        color: #1a1a1a !important;
+        color: #1b5e20 !important;
     }
     
     .warning-box {
         background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
-        border-left: 5px solid #FF9800;
+        border-left: 6px solid #F57C00;
         padding: 20px;
         border-radius: 10px;
         margin: 15px 0;
-        font-size: 0.95em;
-        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
-        color: #1a1a1a !important;
+        font-size: 0.98em;
+        box-shadow: 0 4px 12px rgba(245, 124, 0, 0.15);
+        color: #e65100 !important;
     }
     
     .warning-box * {
-        color: #1a1a1a !important;
+        color: #e65100 !important;
     }
     
-    /* Tabs */
+    .danger-box {
+        background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+        border-left: 6px solid #C62828;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 15px 0;
+        font-size: 0.98em;
+        box-shadow: 0 4px 12px rgba(198, 40, 40, 0.15);
+        color: #b71c1c !important;
+    }
+    
+    .danger-box * {
+        color: #b71c1c !important;
+    }
+    
+    /* ====== TABS ====== */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
+        gap: 12px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 8px;
     }
     
     .stTabs [data-baseweb="tab"] {
         height: 50px;
-        padding: 0 20px;
+        padding: 0 25px;
         background-color: #f0f0f0;
         border-radius: 8px;
-        border: 2px solid #e0e0e0;
-        font-weight: 600;
+        border: 2px solid #ddd;
+        font-weight: 700;
         transition: all 0.3s ease;
-        color: #1a1a1a !important;
+        color: #333333 !important;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: #e8e8e8;
+        border-color: #FF6B35;
     }
     
     .stTabs [aria-selected="true"] {
@@ -247,60 +287,86 @@ st.markdown("""
         border-color: #FF6B35;
     }
     
-    /* Chart Container */
-    .chart-container {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin: 20px 0;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        border: 1px solid #f0f0f0;
-    }
-    
-    /* Section Titles */
+    /* ====== SECTION TITLES ====== */
     .section-title {
-        font-size: 1.8em;
-        font-weight: 700;
+        font-size: 1.9em;
+        font-weight: 800;
         color: #FF6B35 !important;
-        margin: 30px 0 20px 0;
-        border-bottom: 3px solid #FF6B35;
-        padding-bottom: 10px;
+        margin: 35px 0 25px 0;
+        border-bottom: 4px solid #FF6B35;
+        padding-bottom: 12px;
+        background: linear-gradient(90deg, rgba(255, 107, 53, 0.1), transparent);
+        padding-left: 15px;
+        border-radius: 5px;
     }
     
-    /* Footer */
-    .footer {
-        text-align: center;
-        margin-top: 50px;
-        padding: 30px;
-        border-top: 2px solid #f0f0f0;
-        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        border-radius: 15px;
-        color: #666 !important;
-    }
-    
-    .footer h3 {
-        color: #FF6B35 !important;
-        margin-bottom: 10px;
-    }
-    
-    .footer p {
-        color: #666 !important;
-    }
-    
-    .footer a {
-        color: #FF6B35 !important;
-    }
-    
-    /* Selectbox, Slider labels */
+    /* ====== SELECTBOX & SLIDER ====== */
     .stSelectbox label,
     .stSlider label,
     .stText label {
         color: #1a1a1a !important;
+        font-weight: 600;
     }
     
-    /* All inputs */
+    .stSelectbox [role="listbox"] {
+        background-color: #ffffff !important;
+    }
+    
+    .stSelectbox [role="option"] {
+        color: #1a1a1a !important;
+    }
+    
+    /* ====== FOOTER ====== */
+    .footer {
+        text-align: center;
+        margin-top: 60px;
+        padding: 40px;
+        border-top: 3px solid #FF6B35;
+        background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+    
+    .footer h3 {
+        color: #FF6B35 !important;
+        margin-bottom: 15px;
+        font-weight: 800;
+    }
+    
+    .footer p {
+        color: #333333 !important;
+        margin: 8px 0;
+        font-weight: 500;
+    }
+    
+    .footer a {
+        color: #FF6B35 !important;
+        text-decoration: none;
+        font-weight: 700;
+    }
+    
+    .footer a:hover {
+        text-decoration: underline;
+    }
+    
+    /* ====== DATAFRAME STYLING ====== */
+    .stDataFrame {
+        background-color: #ffffff !important;
+    }
+    
+    .stDataFrame * {
+        color: #1a1a1a !important;
+    }
+    
+    /* ====== INPUTS ====== */
     input, select, textarea {
         color: #1a1a1a !important;
+        background-color: #ffffff !important;
+        border: 2px solid #ddd !important;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+        border-color: #FF6B35 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -337,7 +403,7 @@ def load_energy_data():
 try:
     energy_data, is_real = load_energy_data()
 except Exception as e:
-    st.error(f"Error loading data: {e}")
+    st.error(f"❌ Error loading data: {e}")
     st.stop()
 
 # ============================================
@@ -361,9 +427,9 @@ with st.sidebar:
     
     # Data Status
     if is_real:
-        st.markdown('<div class="success-box">✅ Real GitHub Data Loaded</div>', unsafe_allow_html=True)
+        st.markdown('<div class="success-box">✅ Real GitHub Data Loaded Successfully</div>', unsafe_allow_html=True)
     else:
-        st.markdown('<div class="warning-box">⚠️ Synthetic Data Active</div>', unsafe_allow_html=True)
+        st.markdown('<div class="warning-box">⚠️ Using Synthetic Data for Demo</div>', unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -371,41 +437,41 @@ with st.sidebar:
     st.markdown("### 🔮 Forecast Parameters")
     
     forecast_hours = st.slider(
-        "Hours to forecast",
+        "Hours to forecast ahead",
         min_value=1,
         max_value=168,
         value=24,
         step=1,
-        help="How many hours into the future?"
+        help="Select how many hours into the future"
     )
-    st.markdown(f'<div class="info-box">📊 Predicting **{forecast_hours}h** ahead</div>', 
+    st.markdown(f'<div class="info-box"><strong>📊 Predicting {forecast_hours} hours ahead</strong></div>', 
                 unsafe_allow_html=True)
     
     training_days = st.slider(
-        "Training period",
+        "Training period (days)",
         min_value=7,
         max_value=90,
         value=30,
         step=1,
-        help="Historical days for training"
+        help="Amount of historical data for training"
     )
-    st.markdown(f'<div class="info-box">📚 Using **{training_days} days** data</div>', 
+    st.markdown(f'<div class="info-box"><strong>📚 Using {training_days} days of training data</strong></div>', 
                 unsafe_allow_html=True)
     
     st.markdown("---")
     
     # Model Info
     st.markdown("### 🤖 Model Details")
-    st.info("""
-    **Model:** SARIMA(2,1,0)×(1,1,0,24)
-    
-    **Features:**
-    • Captures daily cycles
-    • Detects trends
-    • Handles seasonality
-    
-    **Accuracy:** ~1.14% MAPE
-    """)
+    st.markdown("""
+    <div class="success-box">
+    <strong>Model Type:</strong> SARIMA(2,1,0)×(1,1,0,24)<br><br>
+    <strong>Features:</strong><br>
+    • Autoregressive component (AR)<br>
+    • Integrated differencing (I)<br>
+    • Seasonal pattern detection<br><br>
+    <strong>Accuracy:</strong> ~1.14% MAPE
+    </div>
+    """, unsafe_allow_html=True)
 
 # ============================================
 # MAIN TABS
@@ -469,7 +535,7 @@ with tab1:
     st.markdown("---")
     
     # Recent Data Chart
-    st.markdown("<h3 style='color: #FF6B35;'>📉 Recent Consumption (7 Days)</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #FF6B35; font-weight: 800;'>📉 Recent Consumption (7 Days)</h3>", unsafe_allow_html=True)
     
     recent_data = energy_data['load'].iloc[-7*24:]
     
@@ -479,8 +545,8 @@ with tab1:
         y=recent_data.values,
         fill='tozeroy',
         name='Load',
-        line=dict(color='#FF6B35', width=3),
-        fillcolor='rgba(255, 107, 53, 0.2)'
+        line=dict(color='#FF6B35', width=4),
+        fillcolor='rgba(255, 107, 53, 0.3)'
     ))
     
     fig.update_layout(
@@ -489,8 +555,10 @@ with tab1:
         yaxis_title='Load (MW)',
         hovermode='x unified',
         template='plotly_white',
-        height=400,
-        margin=dict(l=0, r=0, t=40, b=0)
+        height=450,
+        margin=dict(l=50, r=50, t=80, b=50),
+        font=dict(size=12, color='#1a1a1a'),
+        title_font_size=16
     )
     
     st.plotly_chart(fig, use_container_width=True)
@@ -504,7 +572,7 @@ with tab2:
     
     # Period selector
     period = st.selectbox(
-        "Select time period",
+        "Select time period for analysis",
         ["Last 7 Days", "Last 30 Days", "Last 90 Days", "All Data"],
         key="period_select"
     )
@@ -519,7 +587,7 @@ with tab2:
         data_plot = energy_data
     
     # Daily Average
-    st.markdown("### Daily Average Consumption")
+    st.markdown("<h3 style='color: #FF6B35; font-weight: 800;'>Daily Average Consumption</h3>", unsafe_allow_html=True)
     daily = data_plot.resample('D')['load'].mean()
     
     fig = go.Figure()
@@ -528,8 +596,8 @@ with tab2:
         y=daily.values,
         mode='lines+markers',
         name='Daily Average',
-        line=dict(color='steelblue', width=3),
-        marker=dict(size=8)
+        line=dict(color='#1976D2', width=4),
+        marker=dict(size=10, color='#1976D2')
     ))
     
     fig.update_layout(
@@ -537,7 +605,8 @@ with tab2:
         yaxis_title='Average Load (MW)',
         hovermode='x',
         template='plotly_white',
-        height=400
+        height=450,
+        font=dict(size=12, color='#1a1a1a')
     )
     
     st.plotly_chart(fig, use_container_width=True)
@@ -545,7 +614,7 @@ with tab2:
     st.markdown("---")
     
     # Hourly Pattern
-    st.markdown("### Typical Hourly Pattern")
+    st.markdown("<h3 style='color: #FF6B35; font-weight: 800;'>Typical Hourly Pattern</h3>", unsafe_allow_html=True)
     hourly = data_plot.groupby(data_plot.index.hour)['load'].mean()
     
     fig = go.Figure()
@@ -555,21 +624,23 @@ with tab2:
         name='Average Load',
         marker=dict(color='#FF6B35'),
         text=hourly.values.round(0),
-        textposition='auto'
+        textposition='auto',
+        textfont=dict(color='white', size=11)
     ))
     
     fig.update_layout(
         xaxis_title='Hour of Day',
         yaxis_title='Average Load (MW)',
         template='plotly_white',
-        height=400,
-        showlegend=False
+        height=450,
+        showlegend=False,
+        font=dict(size=12, color='#1a1a1a')
     )
     
     st.plotly_chart(fig, use_container_width=True)
     
     peak_hour = hourly.idxmax()
-    st.markdown(f'<div class="success-box">⏰ Peak hour: **{peak_hour}:00** with **{hourly.max():.0f} MW** average</div>', 
+    st.markdown(f'<div class="success-box"><strong>⏰ Peak Hour:</strong> {peak_hour}:00 with <strong>{hourly.max():.0f} MW</strong> average load</div>', 
                 unsafe_allow_html=True)
 
 # ============================================
@@ -579,15 +650,16 @@ with tab2:
 with tab3:
     st.markdown("<h2 class='section-title'>🔮 Energy Forecast</h2>", unsafe_allow_html=True)
     
-    st.markdown("Generate predictions for future energy consumption using advanced ARIMA models.")
+    st.markdown("<p style='color: #333333; font-size: 1.1em; font-weight: 500;'>Generate predictions for future energy consumption using advanced ARIMA models.</p>", 
+                unsafe_allow_html=True)
     
     col1, col2 = st.columns([3, 1])
     
     with col2:
-        forecast_btn = st.button("🚀 Generate", use_container_width=True)
+        forecast_btn = st.button("🚀 Generate Forecast", use_container_width=True)
     
     if forecast_btn:
-        with st.spinner("🤖 Building ARIMA model..."):
+        with st.spinner("🤖 Building ARIMA model... Please wait"):
             try:
                 # Prepare data
                 prices = np.array(energy_data['load'].values)
@@ -619,7 +691,7 @@ with tab3:
                 
                 forecast = scaler.inverse_transform(forecast_scaled.reshape(-1, 1)).flatten()
                 
-                st.markdown('<div class="success-box">✅ Forecast generated successfully!</div>', unsafe_allow_html=True)
+                st.markdown('<div class="success-box"><strong>✅ Forecast generated successfully!</strong></div>', unsafe_allow_html=True)
                 
                 # Metrics
                 col1, col2, col3, col4 = st.columns(4)
@@ -664,7 +736,7 @@ with tab3:
                 st.markdown("---")
                 
                 # Forecast Chart
-                st.markdown("### Forecast Visualization")
+                st.markdown("<h3 style='color: #FF6B35; font-weight: 800;'>Forecast Visualization</h3>", unsafe_allow_html=True)
                 
                 recent_hist = np.array(energy_data['load'].iloc[-24*7:].values)
                 forecast_dates = pd.date_range(
@@ -680,7 +752,7 @@ with tab3:
                     x=energy_data.index[-len(recent_hist):],
                     y=recent_hist,
                     name='Historical Data',
-                    line=dict(color='blue', width=2),
+                    line=dict(color='#1976D2', width=3),
                     mode='lines'
                 ))
                 
@@ -689,9 +761,9 @@ with tab3:
                     x=forecast_dates,
                     y=forecast,
                     name='Forecast',
-                    line=dict(color='red', width=2, dash='dash'),
+                    line=dict(color='#FF6B35', width=3, dash='dash'),
                     mode='lines+markers',
-                    marker=dict(size=6)
+                    marker=dict(size=6, color='#FF6B35')
                 ))
                 
                 # Confidence band
@@ -709,7 +781,7 @@ with tab3:
                     fill='tonexty',
                     name='±5% Confidence',
                     line=dict(width=0),
-                    fillcolor='rgba(255,0,0,0.2)'
+                    fillcolor='rgba(255, 107, 53, 0.2)'
                 ))
                 
                 fig.update_layout(
@@ -718,17 +790,18 @@ with tab3:
                     yaxis_title='Load (MW)',
                     hovermode='x unified',
                     template='plotly_white',
-                    height=500
+                    height=500,
+                    font=dict(size=12, color='#1a1a1a')
                 )
                 
                 st.plotly_chart(fig, use_container_width=True)
                 
                 # Forecast Table
-                st.markdown("### 📋 Forecast Details")
+                st.markdown("<h3 style='color: #FF6B35; font-weight: 800;'>📋 Forecast Details</h3>", unsafe_allow_html=True)
                 
                 forecast_df = pd.DataFrame({
                     'DateTime': forecast_dates.strftime('%Y-%m-%d %H:%M'),
-                    'Predicted (MW)': np.round(forecast, 2),
+                    'Predicted Load (MW)': np.round(forecast, 2),
                     'Change (MW)': np.round(np.diff(np.concatenate([[forecast[0]], forecast])), 2),
                 })
                 
@@ -746,8 +819,9 @@ with tab3:
                 )
                 
             except Exception as e:
-                st.error(f"Error: {str(e)}")
-                st.info("Try adjusting the settings and try again")
+                st.markdown(f'<div class="danger-box">❌ Error: {str(e)}</div>', unsafe_allow_html=True)
+                st.markdown('<div class="warning-box">💡 Try adjusting the settings: reduce forecast hours or training days</div>', 
+                           unsafe_allow_html=True)
 
 # ============================================
 # TAB 4: STATISTICS
@@ -759,27 +833,27 @@ with tab4:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("#### Dataset Information")
-        st.info(f"""
-        **Records:** {len(energy_data):,}
-        
-        **Duration:** {(energy_data.index[-1] - energy_data.index[0]).days} days
-        
-        **Start:** {energy_data.index[0].strftime('%Y-%m-%d')}
-        
-        **End:** {energy_data.index[-1].strftime('%Y-%m-%d')}
-        """)
+        st.markdown("<h4 style='color: #FF6B35; font-weight: 700;'>📊 Dataset Information</h4>", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="info-box">
+        <strong>Total Records:</strong> {len(energy_data):,}<br><br>
+        <strong>Duration:</strong> {(energy_data.index[-1] - energy_data.index[0]).days} days<br><br>
+        <strong>Start Date:</strong> {energy_data.index[0].strftime('%Y-%m-%d')}<br><br>
+        <strong>End Date:</strong> {energy_data.index[-1].strftime('%Y-%m-%d')}
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("#### Summary Statistics")
+        st.markdown("<h4 style='color: #FF6B35; font-weight: 700;'>📈 Summary Statistics</h4>", unsafe_allow_html=True)
         stats = energy_data['load'].describe()
-        st.info(f"""
-        **Mean:** {stats['mean']:.2f} MW
-        
-        **Std Dev:** {stats['std']:.2f} MW
-        
-        **Range:** {stats['min']:.0f} - {stats['max']:.0f} MW
-        """)
+        st.markdown(f"""
+        <div class="success-box">
+        <strong>Mean:</strong> {stats['mean']:.2f} MW<br><br>
+        <strong>Std Dev:</strong> {stats['std']:.2f} MW<br><br>
+        <strong>Min:</strong> {stats['min']:.0f} MW<br><br>
+        <strong>Max:</strong> {stats['max']:.0f} MW
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -787,37 +861,41 @@ with tab4:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### Load Distribution")
+        st.markdown("<h4 style='color: #FF6B35; font-weight: 700;'>Load Distribution</h4>", unsafe_allow_html=True)
         fig = go.Figure()
         fig.add_trace(go.Histogram(
             x=energy_data['load'],
             nbinsx=50,
-            marker=dict(color='#FF6B35')
+            marker=dict(color='#FF6B35'),
+            name='Frequency'
         ))
         fig.update_layout(
             xaxis_title='Load (MW)',
             yaxis_title='Frequency',
             template='plotly_white',
             height=400,
-            showlegend=False
+            showlegend=False,
+            font=dict(size=11, color='#1a1a1a')
         )
         st.plotly_chart(fig, use_container_width=True)
     
     with col2:
-        st.markdown("### Daily Change Distribution")
+        st.markdown("<h4 style='color: #FF6B35; font-weight: 700;'>Daily Change Distribution</h4>", unsafe_allow_html=True)
         returns = energy_data['load'].pct_change().dropna() * 100
         fig = go.Figure()
         fig.add_trace(go.Histogram(
             x=returns,
             nbinsx=50,
-            marker=dict(color='steelblue')
+            marker=dict(color='#1976D2'),
+            name='Frequency'
         ))
         fig.update_layout(
             xaxis_title='Daily Change (%)',
             yaxis_title='Frequency',
             template='plotly_white',
             height=400,
-            showlegend=False
+            showlegend=False,
+            font=dict(size=11, color='#1a1a1a')
         )
         st.plotly_chart(fig, use_container_width=True)
 
@@ -829,44 +907,30 @@ with tab5:
     st.markdown("<h2 class='section-title'>ℹ️ About This Project</h2>", unsafe_allow_html=True)
     
     st.markdown("""
-    ### 🎯 Project Overview
+    <div class="info-box">
+    <h3 style='color: #0d47a1;'>🎯 Project Overview</h3>
+    <p>This application uses advanced machine learning techniques to forecast energy consumption based on historical patterns and seasonal trends.</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    This application uses advanced machine learning techniques to forecast energy consumption.
+    st.markdown("""
+    <div class="success-box">
+    <h3 style='color: #1b5e20;'>🔬 Technology Stack</h3>
+    <p><strong>Language:</strong> Python 3.8+<br>
+    <strong>Framework:</strong> Streamlit<br>
+    <strong>ML Models:</strong> ARIMA/SARIMA<br>
+    <strong>Libraries:</strong> scikit-learn, statsmodels, pandas, plotly</p>
+    </div>
+    """, unsafe_allow_html=True)
     
-    ### 🔬 Technology Stack
-    - **Language:** Python 3.8+
-    - **Framework:** Streamlit
-    - **ML Models:** ARIMA/SARIMA
-    - **Libraries:** scikit-learn, statsmodels, pandas, plotly
-    
-    ### 📊 Dataset
-    - **Source:** Historical electricity load data (2012-2014)
-    - **Records:** 26,304 hourly readings
-    - **Location:** GitHub ML-For-Beginners
-    
-    ### 🎓 Model Details
-    
-    **SARIMA(2,1,0)×(1,1,0,24):**
-    - AR (p=2): Uses 2 past values
-    - I (d=1): First-order differencing
-    - MA (q=0): No moving average
-    - Seasonal (P,D,Q,s): Captures 24-hour cycle
-    
-    ### 📈 Performance
-    - **MAPE:** ~1.14% (excellent)
-    - **Accuracy:** High prediction quality
-    - **Reliability:** Walk-forward validated
-    
-    ### 💼 Use Cases
-    - Grid load forecasting
-    - Power generation planning
-    - Cost optimization
-    - Demand prediction
-    - Anomaly detection
-    
-    ### 👨‍💻 Author
-    Energy Analytics Team (2026)
-    """)
+    st.markdown("""
+    <div class="warning-box">
+    <h3 style='color: #e65100;'>📊 Dataset Information</h3>
+    <p><strong>Source:</strong> Historical electricity load data (2012-2014)<br>
+    <strong>Records:</strong> 26,304 hourly readings<br>
+    <strong>Location:</strong> GitHub ML-For-Beginners</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ============================================
 # FOOTER
@@ -876,13 +940,13 @@ st.markdown("""
 <div class="footer">
     <h3>⚡ Energy Consumption Forecasting System</h3>
     <p>Powered by ARIMA/SARIMA Models | Real-time Data Processing</p>
-    <hr style="margin: 20px 0; opacity: 0.3;">
-    <p style="font-size: 0.85em;">
-    📊 Data: 2012-2014 Electricity Load Dataset | 
-    🔧 Built with Streamlit & scikit-learn |
-    📱 Open Source on GitHub
+    <hr style="border: 1px solid #FF6B35; margin: 20px 0;">
+    <p>
+    📊 Data: 2012-2014 Electricity Load Dataset<br>
+    🔧 Built with Streamlit & scikit-learn<br>
+    📱 <a href="https://github.com" target="_blank">Open Source on GitHub</a>
     </p>
-    <p style="font-size: 0.8em; margin-top: 10px; opacity: 0.7;">
+    <p style="font-size: 0.9em; margin-top: 15px; opacity: 0.8;">
     © 2026 Energy Analytics Team. All rights reserved.
     </p>
 </div>
