@@ -14,13 +14,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime, timedelta
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import mean_squared_error, mean_absolute_error
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 import urllib.request
 import io
 import warnings
 import plotly.graph_objects as go
-import plotly.express as px
 
 warnings.filterwarnings('ignore')
 sns.set_style("whitegrid")
@@ -37,7 +35,7 @@ st.set_page_config(
 )
 
 # ============================================
-# CUSTOM STYLING
+# CUSTOM STYLING - NO WHITE TEXT ANYWHERE
 # ============================================
 
 st.markdown("""
@@ -48,13 +46,36 @@ st.markdown("""
         box-sizing: border-box;
     }
     
-    /* Main Theme */
-    :root {
-        --primary: #FF6B35;
-        --secondary: #F7931E;
-        --accent: #667eea;
-        --dark: #1a1a1a;
-        --light: #f8f9fa;
+    /* FORCE ALL TEXT TO DARK COLOR */
+    body, p, span, div, h1, h2, h3, h4, h5, h6, li, label, a {
+        color: #1a1a1a !important;
+    }
+    
+    /* Main content area */
+    [role="main"] {
+        color: #1a1a1a !important;
+    }
+    
+    [role="main"] * {
+        color: #1a1a1a !important;
+    }
+    
+    /* Tab panels */
+    [role="tabpanel"] {
+        color: #1a1a1a !important;
+    }
+    
+    [role="tabpanel"] * {
+        color: #1a1a1a !important;
+    }
+    
+    /* All text elements */
+    .stMarkdown {
+        color: #1a1a1a !important;
+    }
+    
+    .stMarkdown * {
+        color: #1a1a1a !important;
     }
     
     /* Header */
@@ -66,31 +87,19 @@ st.markdown("""
         margin-bottom: 30px;
         text-align: center;
         box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
-        animation: slideIn 0.5s ease-in-out;
     }
     
     .main-header h1 {
         font-size: 3.5em;
         font-weight: 800;
         margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        color: white !important;
     }
     
     .main-header p {
         font-size: 1.3em;
         opacity: 0.95;
-        font-weight: 300;
-    }
-    
-    @keyframes slideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        color: white !important;
     }
     
     /* Metric Cards */
@@ -115,6 +124,7 @@ st.markdown("""
         font-weight: 900;
         margin: 15px 0;
         font-family: 'Courier New', monospace;
+        color: white !important;
     }
     
     .metric-label {
@@ -123,6 +133,7 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 2px;
         font-weight: 600;
+        color: white !important;
     }
     
     /* Sidebar */
@@ -131,7 +142,7 @@ st.markdown("""
     }
     
     [data-testid="stSidebar"] * {
-        color: #333333 !important;
+        color: #1a1a1a !important;
     }
     
     [data-testid="stSidebar"] h1,
@@ -141,10 +152,18 @@ st.markdown("""
         font-weight: 700;
     }
     
+    [data-testid="stSidebar"] p {
+        color: #1a1a1a !important;
+    }
+    
+    [data-testid="stSidebar"] label {
+        color: #1a1a1a !important;
+    }
+    
     /* Buttons */
     .stButton > button {
         background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-        color: white;
+        color: white !important;
         border: none;
         padding: 12px 30px;
         font-size: 1em;
@@ -160,11 +179,7 @@ st.markdown("""
         box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
     }
     
-    .stButton > button:active {
-        transform: scale(0.98);
-    }
-    
-    /* Info/Success/Warning Boxes */
+    /* Info Boxes */
     .info-box {
         background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
         border-left: 5px solid #2196F3;
@@ -173,6 +188,11 @@ st.markdown("""
         margin: 15px 0;
         font-size: 0.95em;
         box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
+        color: #1a1a1a !important;
+    }
+    
+    .info-box * {
+        color: #1a1a1a !important;
     }
     
     .success-box {
@@ -183,6 +203,11 @@ st.markdown("""
         margin: 15px 0;
         font-size: 0.95em;
         box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
+        color: #1a1a1a !important;
+    }
+    
+    .success-box * {
+        color: #1a1a1a !important;
     }
     
     .warning-box {
@@ -193,16 +218,11 @@ st.markdown("""
         margin: 15px 0;
         font-size: 0.95em;
         box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+        color: #1a1a1a !important;
     }
     
-    .danger-box {
-        background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
-        border-left: 5px solid #f44336;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 15px 0;
-        font-size: 0.95em;
-        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.15);
+    .warning-box * {
+        color: #1a1a1a !important;
     }
     
     /* Tabs */
@@ -218,11 +238,12 @@ st.markdown("""
         border: 2px solid #e0e0e0;
         font-weight: 600;
         transition: all 0.3s ease;
+        color: #1a1a1a !important;
     }
     
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-        color: white;
+        color: white !important;
         border-color: #FF6B35;
     }
     
@@ -236,36 +257,11 @@ st.markdown("""
         border: 1px solid #f0f0f0;
     }
     
-    /* Table Styling */
-    .data-table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 20px 0;
-    }
-    
-    .data-table th {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 15px;
-        text-align: left;
-        font-weight: 700;
-        font-size: 0.9em;
-    }
-    
-    .data-table td {
-        padding: 12px 15px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    
-    .data-table tr:hover {
-        background: #f9f9f9;
-    }
-    
     /* Section Titles */
     .section-title {
         font-size: 1.8em;
         font-weight: 700;
-        color: #FF6B35;
+        color: #FF6B35 !important;
         margin: 30px 0 20px 0;
         border-bottom: 3px solid #FF6B35;
         padding-bottom: 10px;
@@ -279,33 +275,32 @@ st.markdown("""
         border-top: 2px solid #f0f0f0;
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         border-radius: 15px;
-        color: #666;
+        color: #666 !important;
     }
     
     .footer h3 {
-        color: #FF6B35;
+        color: #FF6B35 !important;
         margin-bottom: 10px;
     }
     
-    /* Spinner Animation */
-    .loading {
-        display: inline-block;
-        animation: spin 1s linear infinite;
+    .footer p {
+        color: #666 !important;
     }
     
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    .footer a {
+        color: #FF6B35 !important;
     }
     
-    /* Responsive */
-    @media (max-width: 768px) {
-        .main-header h1 {
-            font-size: 2em;
-        }
-        .metric-value {
-            font-size: 1.8em;
-        }
+    /* Selectbox, Slider labels */
+    .stSelectbox label,
+    .stSlider label,
+    .stText label {
+        color: #1a1a1a !important;
+    }
+    
+    /* All inputs */
+    input, select, textarea {
+        color: #1a1a1a !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -342,7 +337,7 @@ def load_energy_data():
 try:
     energy_data, is_real = load_energy_data()
 except Exception as e:
-    st.error(f"❌ Error loading data: {e}")
+    st.error(f"Error loading data: {e}")
     st.stop()
 
 # ============================================
@@ -361,14 +356,6 @@ st.markdown("""
 # ============================================
 
 with st.sidebar:
-    st.markdown("""
-        <style>
-            [data-testid="stSidebar"] {
-                background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
-            }
-        </style>
-    """, unsafe_allow_html=True)
-    
     st.markdown("### ⚙️ Configuration")
     st.markdown("---")
     
@@ -413,21 +400,11 @@ with st.sidebar:
     **Model:** SARIMA(2,1,0)×(1,1,0,24)
     
     **Features:**
-    - Captures daily cycles
-    - Detects trends
-    - Handles seasonality
+    • Captures daily cycles
+    • Detects trends
+    • Handles seasonality
     
     **Accuracy:** ~1.14% MAPE
-    """)
-    
-    st.markdown("---")
-    
-    # About
-    st.markdown("### ℹ️ About")
-    st.markdown("""
-    Energy forecasting using machine learning.
-    
-    **Dataset:** 26,304 hourly records (2012-2014)
     """)
 
 # ============================================
@@ -753,7 +730,6 @@ with tab3:
                     'DateTime': forecast_dates.strftime('%Y-%m-%d %H:%M'),
                     'Predicted (MW)': np.round(forecast, 2),
                     'Change (MW)': np.round(np.diff(np.concatenate([[forecast[0]], forecast])), 2),
-                    'Change (%)': np.round(np.diff(np.concatenate([[100], (forecast/forecast[0]*100)])), 2)
                 })
                 
                 st.dataframe(forecast_df.head(24), use_container_width=True, hide_index=True)
@@ -770,8 +746,8 @@ with tab3:
                 )
                 
             except Exception as e:
-                st.error(f"❌ Error: {str(e)}")
-                st.info("💡 Tip: Try reducing forecast hours or training days")
+                st.error(f"Error: {str(e)}")
+                st.info("Try adjusting the settings and try again")
 
 # ============================================
 # TAB 4: STATISTICS
@@ -890,11 +866,6 @@ with tab5:
     
     ### 👨‍💻 Author
     Energy Analytics Team (2026)
-    
-    ### 📚 Resources
-    - [GitHub Repository](https://github.com)
-    - [ML-For-Beginners](https://github.com/microsoft/ML-For-Beginners)
-    - [ARIMA Documentation](https://www.statsmodels.org/)
     """)
 
 # ============================================
@@ -909,7 +880,7 @@ st.markdown("""
     <p style="font-size: 0.85em;">
     📊 Data: 2012-2014 Electricity Load Dataset | 
     🔧 Built with Streamlit & scikit-learn |
-    📱 <a href="https://github.com" target="_blank">Open Source on GitHub</a>
+    📱 Open Source on GitHub
     </p>
     <p style="font-size: 0.8em; margin-top: 10px; opacity: 0.7;">
     © 2026 Energy Analytics Team. All rights reserved.
